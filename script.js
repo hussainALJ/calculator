@@ -23,6 +23,68 @@ const nineBtn = document.querySelector("#nine");
 const zeroBtn = document.querySelector("#zero");
 const point = document.querySelector("#decimal");
 
+
+let equation = [null, {operator: null, selected: null}, null];
+
+
+function add() {
+    return equation[0] + equation[2]
+
+}
+
+function subtract() {
+    return equation[0] - equation[2];
+}
+
+function multiply() {
+    return equation[0] * equation[2];
+}
+
+function divide() {
+    return equation[0] / equation[2];
+}
+
+
+function result() {
+    if (equation[2] !== null) {
+        equation[0] = equation[1].operator();
+        equation[2] = null;
+        screen.textContent = equation[0];
+    }
+}
+
+function inputNum(num) {
+        let onScreenNum = 0;
+        if (equation[1].operator === null) {
+            if (equation[0] === null) {
+                equation[0] = num
+            }else if(String(equation[0]).length < 5) {
+                equation[0] = Number(equation[0] += `${num}`);
+            }
+            onScreenNum = equation[0];
+        }else {
+            if (equation[2] === null) {
+                equation[2] = num
+            }else if (String(equation[2]).length < 5) {
+                equation[2] = Number(equation[2] += `${num}`);
+            }
+            onScreenNum = equation[2];
+        }
+
+        screen.textContent = onScreenNum;
+}
+
+//style
+function select(target) {
+    if (equation[1].selected === null) {
+        equation[1].selected = target;
+    }
+    equation[1].selected.style.backgroundColor = "#161418";
+    target.style.backgroundColor = "#361418"
+    equation[1].selected = target
+}
+
+
 const buttons = document.querySelector(".buttons");
 buttons.addEventListener("click", (e) => {
     let button = e.target;
@@ -58,14 +120,47 @@ buttons.addEventListener("click", (e) => {
             inputNum(9);
             break;
         case plus:
+            if (equation[0] !== null && equation[2] === null){
+                equation[1].operator = add;
+                select(plus);
+            }else if (equation[2] !== null) {
+                result();
+                equation[1].operator = add;
+                select(plus);
+            }
             break;
         case minus:
+            if (equation[0] !== null && equation[2] === null){
+                equation[1].operator = subtract;
+                select(minus);
+            }else if (equation[2] !== null) {
+                result();
+                equation[1].operator = subtract;
+                select(minus);
+            }
             break;
         case multiplication:
+            if (equation[0] !== null && equation[2] === null){
+                equation[1].operator = multiply;
+                select(multiplication);
+            }else if (equation[2] !== null) {
+                result();
+                equation[1].operator = multiply;
+                select(multiplication);
+            }
             break;
         case division:
+            if (equation[0] !== null && equation[2] === null){
+                equation[1].operator = divide;
+                select(division);
+            }else if (equation[2] !== null) {
+                result();
+                equation[1].operator = divide;
+                select(division);
+            }
             break;
         case equal:
+            result();
             break;
         case plusMinus:
             break;
@@ -76,21 +171,4 @@ buttons.addEventListener("click", (e) => {
     }
 })
 
-let equation = [null, null, null];
 
-function inputNum(num) {
-    let onScreenNum = 0;
-    if (equation[1] === null) {
-        (equation[0] === null) ? 
-        equation[0] = num: equation[0] = Number(equation[0] += `${num}`);
-
-        onScreenNum = equation[0];
-    }else {
-        (equation[2] === null) ?
-        equation[2] = num: equation[2] = Number(equation[2] += `${num}`);
-
-        onScreenNum = equation[2];
-    }
-
-    screen.textContent = onScreenNum;
-}
