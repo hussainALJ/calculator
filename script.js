@@ -24,7 +24,7 @@ const zeroBtn = document.querySelector("#zero");
 const point = document.querySelector("#decimal");
 
 
-let equation = [null, {operator: null, selected: null}, null];
+let equation = [null, {operator: null}, null];
 
 
 function add() {
@@ -54,36 +54,50 @@ function result() {
 }
 
 function inputNum(num) {
-        let onScreenNum = 0;
         if (equation[1].operator === null) {
             if (equation[0] === null) {
                 equation[0] = num
-            }else if(String(equation[0]).length < 5) {
+            }else if(String(equation[0]).length < 10) {
                 equation[0] = Number(equation[0] += `${num}`);
             }
-            onScreenNum = equation[0];
+            clear.textContent = "C";
+            screenText(equation[0]);
         }else {
             if (equation[2] === null) {
                 equation[2] = num
-            }else if (String(equation[2]).length < 5) {
+            }else if (String(equation[2]).length < 10) {
                 equation[2] = Number(equation[2] += `${num}`);
             }
-            onScreenNum = equation[2];
+            screenText(equation[2]);
         }
-
-        screen.textContent = onScreenNum;
 }
 
-//style
-function select(target) {
-    if (equation[1].selected === null) {
-        equation[1].selected = target;
+function clearing() {
+    if (equation[2] !== null) {
+        equation[2] = null;
+        equation[1].operator = null;
+        screenText(equation[0]);
+    }else if (equation[0] !== null) {
+        equation[1].operator = null;
+        equation[0] = null;
+        clear.textContent = "AC";
+        screenText(0);
     }
-    equation[1].selected.style.backgroundColor = "#161418";
-    target.style.backgroundColor = "#361418"
-    equation[1].selected = target
 }
 
+function screenText(num) {
+    if (Number.isInteger(num)) {
+        if (equation[2] !== null) {
+            screen.textContent += `${num}`;
+        }else if(equation[0] !== null) {
+            screen.textContent = num;
+        }else {
+            screen.textContent = 0
+        }
+    }else {
+        screen.textContent += num;
+    }
+}
 
 const buttons = document.querySelector(".buttons");
 buttons.addEventListener("click", (e) => {
@@ -122,41 +136,41 @@ buttons.addEventListener("click", (e) => {
         case plus:
             if (equation[0] !== null && equation[2] === null){
                 equation[1].operator = add;
-                select(plus);
+                screenText("+");
             }else if (equation[2] !== null) {
                 result();
                 equation[1].operator = add;
-                select(plus);
+                screenText("+");
             }
             break;
         case minus:
             if (equation[0] !== null && equation[2] === null){
                 equation[1].operator = subtract;
-                select(minus);
+                screenText("-");
             }else if (equation[2] !== null) {
                 result();
                 equation[1].operator = subtract;
-                select(minus);
+                screenText("-");
             }
             break;
         case multiplication:
             if (equation[0] !== null && equation[2] === null){
                 equation[1].operator = multiply;
-                select(multiplication);
+                screenText("*");
             }else if (equation[2] !== null) {
                 result();
                 equation[1].operator = multiply;
-                select(multiplication);
+                screenText("*");
             }
             break;
         case division:
             if (equation[0] !== null && equation[2] === null){
                 equation[1].operator = divide;
-                select(division);
+                screenText("/");
             }else if (equation[2] !== null) {
                 result();
                 equation[1].operator = divide;
-                select(division);
+                screenText("/");
             }
             break;
         case equal:
@@ -167,6 +181,7 @@ buttons.addEventListener("click", (e) => {
         case percent:
             break;
         case clear:
+            clearing()
             break;
     }
 })
