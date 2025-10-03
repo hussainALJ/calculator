@@ -3,8 +3,8 @@ body {
     justify-content: center;
 }
 .calculator {
-    background-color: #0e0e0e;
-    border: #1f1f1f 4px solid;
+    background-color: #121215;
+    border: #1f1f22 4px solid;
     border-radius: 2%;
     padding: 48px 16px 16px;
     flex-grow: 0;
@@ -14,8 +14,13 @@ body {
 
 .screen {
     background-color: #3C412C;
-    flex: 1 75px;
+    border: #373c27 4px solid;
+    padding-right: 8px;
+    flex: 1 67px;
     margin-bottom: 48px;
+    font-size: 60px;
+    align-content: center;
+    text-align: right;
 }
 
 .buttons {
