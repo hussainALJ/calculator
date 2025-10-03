@@ -28,24 +28,34 @@ buttons.addEventListener("click", (e) => {
     let button = e.target;
     switch (button) {
         case zeroBtn:
+            inputNum(0);
             break;
         case oneBtn:
+            inputNum(1);
             break;
         case twoBtn:
+            inputNum(2);
             break;
         case threeBtn:
+            inputNum(3);
             break;
         case fourBtn:
+            inputNum(4);
             break;
         case fiveBtn:
+            inputNum(5);
             break;
         case sixBtn:
+            inputNum(6);
             break;
         case sevenBtn:
+            inputNum(7);
             break;
         case eightBtn:
+            inputNum(8);
             break;
         case nineBtn:
+            inputNum(9);
             break;
         case plus:
             break;
@@ -65,3 +75,22 @@ buttons.addEventListener("click", (e) => {
             break;
     }
 })
+
+let equation = [null, null, null];
+
+function inputNum(num) {
+    let onScreenNum = 0;
+    if (equation[1] === null) {
+        (equation[0] === null) ? 
+        equation[0] = num: equation[0] = Number(equation[0] += `${num}`);
+
+        onScreenNum = equation[0];
+    }else {
+        (equation[2] === null) ?
+        equation[2] = num: equation[2] = Number(equation[2] += `${num}`);
+
+        onScreenNum = equation[2];
+    }
+
+    screen.textContent = onScreenNum;
+}
