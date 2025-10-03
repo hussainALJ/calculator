@@ -12,7 +12,7 @@ body {
     flex-direction: column;
 }
 
-.screen {
+#screen {
     background-color: #3C412C;
     border: #373c27 4px solid;
     padding-right: 8px;
